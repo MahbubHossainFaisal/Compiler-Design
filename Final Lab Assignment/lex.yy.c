@@ -1575,7 +1575,7 @@ yywrap()
  { 
   return 0; 
  } 
-main() 
+int main() 
 { 
  yylex(); 
 } 

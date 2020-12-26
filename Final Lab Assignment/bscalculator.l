@@ -1,8 +1,11 @@
 %{ 
-  int operation = 1; 
+#undef yywrap
+
+  int operation = 0; 
   float a, b; 
 %} 
-  
+ 
+
 digit [0-9]+|([0-9]*)"."([0-9]+) 
 add "+"
 sub "-"
@@ -12,20 +15,25 @@ ln \n
 %% 
   
 
-{digit} {digi();}  
+{digit} {function1();} 
 {add} {operation=1;} 
 {sub} {operation=2;} 
 {mul} {operation=3;} 
-{div} {operation=4;} 
-{ln} {printf("\n The Answer is :%f\n\n",a);} 
+{div} {operation=4;}
+
+{ln} {printf("\n The Answer is =%f\n\n",a);} 
   
 %% 
-digi() 
+function1()
 { 
+
  if(operation==0) 
   
- a=atof(yytext);  
+ {
+  a=atof(yytext);  
   
+    
+ }
  else
  { 
  b=atof(yytext); 
@@ -43,20 +51,23 @@ digi()
    
    case 4:a=a/b; 
    break; 
-   default:
-   printf("operation not available");
-    break;
+
+   default:printf("operation not available");
+   break;
+   
+   
    
   } 
  operation=0; 
  } 
 } 
+
   
 yywrap() 
  { 
   return 0; 
  } 
-main(int argv,char *argc[]) 
+int main() 
 { 
  yylex(); 
 } 
